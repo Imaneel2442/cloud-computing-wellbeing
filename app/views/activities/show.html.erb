@@ -1,0 +1,116 @@
+<div class="mb-3 fade-up">
+  <%= link_to activities_path, class: "wb-muted text-decoration-none small" do %>
+    <i class="bi bi-arrow-left me-1"></i> Retour aux activités
+  <% end %>
+</div>
+
+<div class="row g-4">
+  <!-- Détail activité -->
+  <div class="col-lg-7 fade-up-1">
+    <div class="wb-card p-4 p-lg-5">
+      <div class="d-flex align-items-start gap-4 mb-4">
+        <div class="wb-activity-top rounded-3 px-3 py-3"
+             style="background:linear-gradient(135deg,<%= @activity.category_info[:color] %>20,<%= @activity.category_info[:color] %>08); min-width:80px; text-align:center">
+          <span style="font-size:2.5rem; display:block"><%= @activity.emoji %></span>
+        </div>
+        <div class="flex-grow-1">
+          <span class="wb-tag mb-2 d-inline-block"><%= @activity.category_info[:label] %></span>
+          <h2 class="wb-title mb-0" style="font-size:1.9rem"><%= @activity.title %></h2>
+        </div>
+      </div>
+
+      <div class="d-flex flex-wrap gap-3 mb-4">
+        <span class="d-inline-flex align-items-center gap-1 wb-muted small">
+          <i class="bi bi-clock" style="color:var(--wb-sage)"></i>
+          <%= @activity.formatted_duration %>
+        </span>
+        <% if @activity.date.present? %>
+          <span class="d-inline-flex align-items-center gap-1 wb-muted small">
+            <i class="bi bi-calendar3" style="color:var(--wb-gold)"></i>
+            <%= @activity.date.strftime("%d/%m/%Y") %>
+          </span>
+        <% end %>
+        <span class="d-inline-flex align-items-center gap-1 small fw-semibold" style="color:var(--wb-sage)">
+          <i class="bi bi-tag"></i> 50 DH / place
+        </span>
+      </div>
+
+      <hr style="border-color:rgba(107,143,113,.15)">
+
+      <div class="my-4">
+        <h6 class="fw-semibold mb-2" style="font-size:.85rem; text-transform:uppercase; letter-spacing:.05em; color:var(--wb-muted)">Description</h6>
+        <p style="line-height:1.8; color:var(--wb-text)">
+          <%= @activity.notes.present? ? @activity.notes : "Aucune description disponible pour cette activité." %>
+        </p>
+      </div>
+
+      <% if logged_in? %>
+        <hr style="border-color:rgba(107,143,113,.15)">
+        <div class="d-flex gap-2 flex-wrap mt-3">
+          <%= link_to "Modifier", edit_activity_path(@activity), class: "wb-btn wb-btn-outline btn-sm" %>
+          <%= button_to "Supprimer", activity_path(@activity),
+                method: :delete,
+                data: { turbo_confirm: "Supprimer définitivement cette activité ?" },
+                class: "wb-btn wb-btn-danger btn-sm",
+                form: { style: "display:inline-flex" } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Formulaire de réservation -->
+  <div class="col-lg-5 fade-up-2">
+    <div class="wb-card p-4 p-lg-5" style="position:sticky; top:90px">
+      <div class="text-center mb-4">
+        <div style="font-size:2rem">📅</div>
+        <h5 class="wb-title mt-2 mb-1" style="font-size:1.3rem">Réserver une séance</h5>
+        <p class="wb-muted small">Choisis ta date et confirme en un clic.</p>
+      </div>
+
+      <% if logged_in? %>
+        <%= form_with url: activity_reservations_path(@activity), method: :post, local: true do |f| %>
+          <div class="mb-3">
+            <%= f.label :date, "Date souhaitée", class: "form-label" %>
+            <%= f.date_field :date, class: "form-control",
+                  min: Date.today.to_s, name: "reservation[date]", required: true %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :time, "Créneau horaire", class: "form-label" %>
+            <%= f.select :time,
+                  [["08:00 — Matinée", "08:00"], ["09:00 — Matinée", "09:00"],
+                   ["10:00 — Matinée", "10:00"], ["11:00 — Matinée", "11:00"],
+                   ["14:00 — Après-midi", "14:00"], ["15:00 — Après-midi", "15:00"],
+                   ["16:00 — Après-midi", "16:00"], ["17:00 — Après-midi", "17:00"],
+                   ["18:00 — Soirée", "18:00"], ["19:00 — Soirée", "19:00"]],
+                  { prompt: "-- Choisir un créneau --" },
+                  class: "form-select", name: "reservation[time]", required: true %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :seats, "Nombre de places", class: "form-label" %>
+            <%= f.number_field :seats, class: "form-control",
+                  min: 1, max: 10, value: 1, name: "reservation[seats]", required: true %>
+          </div>
+          <div class="p-3 rounded-3 mb-4" style="background:rgba(107,143,113,.07); border:1px solid rgba(107,143,113,.12)">
+            <div class="d-flex justify-content-between small fw-semibold">
+              <span class="wb-muted">Prix par place</span><span>50 DH</span>
+            </div>
+            <div class="d-flex justify-content-between small fw-semibold mt-1">
+              <span class="wb-muted">Total estimé</span>
+              <span style="color:var(--wb-sage)">calculé à la réservation</span>
+            </div>
+          </div>
+          <%= f.submit "Confirmer la réservation", class: "wb-btn wb-btn-primary w-100 justify-content-center" %>
+        <% end %>
+      <% else %>
+        <div class="text-center py-3">
+          <div style="font-size:2rem; margin-bottom:10px">🔒</div>
+          <p class="wb-muted mb-3">Connecte-toi pour réserver cette activité.</p>
+          <div class="d-grid gap-2">
+            <%= link_to "Se connecter", login_path, class: "wb-btn wb-btn-primary w-100 justify-content-center" %>
+            <%= link_to "Créer un compte", signup_path, class: "wb-btn wb-btn-outline w-100 justify-content-center" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

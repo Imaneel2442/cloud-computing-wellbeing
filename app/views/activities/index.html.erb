@@ -1,0 +1,91 @@
+<!-- Header -->
+<div class="wb-hero-mini mb-4 fade-up">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div>
+      <h1 class="wb-title mb-1" style="font-size:2rem">
+        <% if @current_category && Activity::CATEGORIES[@current_category] %>
+          <%= Activity::CATEGORIES[@current_category][:emoji] %> <%= Activity::CATEGORIES[@current_category][:label] %>
+        <% else %>
+          Toutes les activités
+        <% end %>
+      </h1>
+      <div class="wb-muted">
+        <%= @activities.count %> activité<%= @activities.count > 1 ? "s" : "" %> disponible<%= @activities.count > 1 ? "s" : "" %>
+      </div>
+    </div>
+    <% if logged_in? %>
+      <%= link_to new_activity_path, class: "wb-btn wb-btn-primary btn-sm" do %>
+        <i class="bi bi-plus-lg"></i> Ajouter
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<!-- Filtres catégorie -->
+<div class="d-flex flex-wrap gap-2 mb-4 fade-up-1">
+  <%= link_to activities_path, class: "wb-chip #{@current_category.blank? ? 'active' : ''}" do %>
+    <i class="bi bi-grid-3x3-gap"></i> Toutes
+  <% end %>
+  <% Activity::CATEGORIES.each do |key, info| %>
+    <%= link_to activities_path(category: key),
+          class: "wb-chip #{@current_category == key ? 'active' : ''}" do %>
+      <%= info[:emoji] %> <%= info[:label] %>
+    <% end %>
+  <% end %>
+</div>
+
+<!-- Grille d'activités -->
+<% if @activities.any? %>
+  <div class="row g-4">
+    <% @activities.each_with_index do |activity, i| %>
+      <div class="col-md-6 col-lg-4 fade-up-<%= [i % 4 + 1, 4].min %>">
+        <div class="wb-activity-card h-100">
+          <div class="wb-activity-top"
+               style="background: linear-gradient(160deg, <%= activity.category_info[:color] %>1a, <%= activity.category_info[:color] %>08)">
+            <span class="wb-emoji"><%= activity.emoji %></span>
+            <span class="wb-tag mt-2 d-inline-block"><%= activity.category_info[:label] %></span>
+          </div>
+          <div class="wb-activity-body d-flex flex-column">
+            <h5 class="wb-card-title"><%= activity.title %></h5>
+            <p class="wb-card-desc flex-grow-1">
+              <%= truncate(activity.notes, length: 90) || "Aucune description." %>
+            </p>
+            <div class="wb-meta mb-3">
+              <span><i class="bi bi-clock"></i> <%= activity.formatted_duration %></span>
+              <% if activity.date.present? %>
+                <span><i class="bi bi-calendar3"></i> <%= activity.date.strftime("%d/%m/%Y") %></span>
+              <% end %>
+              <span style="color:var(--wb-sage); font-weight:600"><i class="bi bi-tag"></i> 50 DH</span>
+            </div>
+            <div class="d-flex gap-2">
+              <%= link_to "Voir & Réserver", activity_path(activity),
+                    class: "wb-btn wb-btn-primary btn-sm flex-grow-1 text-center" %>
+              <% if logged_in? %>
+                <%= link_to edit_activity_path(activity), class: "wb-btn wb-btn-outline btn-sm" do %>
+                  <i class="bi bi-pencil"></i>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+<% else %>
+  <div class="wb-empty fade-up">
+    <div class="wb-empty-icon">🌱</div>
+    <h3 class="wb-title mb-2">Aucune activité trouvée</h3>
+    <p class="wb-muted mb-3">
+      <% if @current_category %>
+        Aucune activité dans cette catégorie pour le moment.
+        <%= link_to "Voir toutes les activités", activities_path, class: "link-success fw-semibold" %>
+      <% else %>
+        Sois le premier à ajouter une activité bien-être !
+      <% end %>
+    </p>
+    <% if logged_in? %>
+      <%= link_to "Créer une activité", new_activity_path, class: "wb-btn wb-btn-primary" %>
+    <% end %>
+  </div>
+<% end %>

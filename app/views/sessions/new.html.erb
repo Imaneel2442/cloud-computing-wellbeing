@@ -1,0 +1,33 @@
+<div class="row justify-content-center py-4">
+  <div class="col-md-5 col-sm-10">
+    <div class="wb-card p-4 p-md-5 fade-up">
+      <div class="text-center mb-4">
+        <div style="font-size:2.5rem; margin-bottom:8px">🌿</div>
+        <h2 class="wb-title mb-1" style="font-size:1.9rem">
+          Bon retour <span class="wb-title-italic" style="color:var(--wb-sage)">!</span>
+        </h2>
+        <p class="wb-muted">Accède à ton espace bien-être.</p>
+      </div>
+
+      <%= form_with url: login_path, method: :post, local: true do |f| %>
+        <div class="mb-3">
+          <%= f.label :email, "Adresse e-mail", class: "form-label" %>
+          <%= f.email_field :email, class: "form-control",
+                placeholder: "ton@email.com", autofocus: true %>
+        </div>
+        <div class="mb-4">
+          <%= f.label :password, "Mot de passe", class: "form-label" %>
+          <%= f.password_field :password, class: "form-control",
+                placeholder: "••••••••" %>
+        </div>
+        <%= f.submit "Se connecter", class: "wb-btn wb-btn-primary w-100 justify-content-center" %>
+      <% end %>
+
+      <div class="text-center mt-3 wb-muted small">
+        Pas encore de compte ?
+        <%= link_to "Créer un compte gratuit", signup_path,
+              class: "fw-semibold text-decoration-none", style: "color:var(--wb-sage)" %>
+      </div>
+    </div>
+  </div>
+</div>

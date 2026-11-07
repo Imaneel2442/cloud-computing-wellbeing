@@ -1,0 +1,72 @@
+<div class="mb-3 fade-up">
+  <%= link_to activities_path, class: "wb-muted text-decoration-none small" do %>
+    <i class="bi bi-arrow-left me-1"></i> Retour aux activités
+  <% end %>
+</div>
+
+<div class="row justify-content-center fade-up-1">
+  <div class="col-lg-7">
+    <div class="wb-card p-4 p-lg-5">
+      <div class="text-center mb-4">
+        <div style="font-size:2rem">
+          <%= @activity.persisted? ? "✏️" : "🌿" %>
+        </div>
+        <h2 class="wb-title mt-2 mb-1" style="font-size:1.8rem">
+          <%= @activity.persisted? ? "Modifier l'activité" : "Nouvelle activité" %>
+        </h2>
+        <p class="wb-muted small">
+          <%= @activity.persisted? ? "Mets à jour les informations." : "Ajoute une activité bien-être au catalogue." %>
+        </p>
+      </div>
+
+      <% if @activity.errors.any? %>
+        <div class="wb-flash-danger mb-4">
+          <div class="fw-semibold mb-1">Veuillez corriger les erreurs :</div>
+          <ul class="mb-0 ps-3" style="font-size:.9rem">
+            <% @activity.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= form_with model: @activity, local: true do |f| %>
+        <div class="mb-3">
+          <%= f.label :title, "Titre de l'activité", class: "form-label" %>
+          <%= f.text_field :title, class: "form-control", placeholder: "Ex : Yoga matinal au lever du soleil" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :category, "Catégorie", class: "form-label" %>
+          <%= f.select :category,
+                Activity::CATEGORIES.map { |key, info| ["#{info[:emoji]}  #{info[:label]}", key] },
+                { prompt: "-- Choisir une catégorie --" },
+                class: "form-select" %>
+        </div>
+
+        <div class="row g-3 mb-3">
+          <div class="col-sm-6">
+            <%= f.label :duration, "Durée (minutes)", class: "form-label" %>
+            <%= f.number_field :duration, class: "form-control", min: 1, placeholder: "Ex : 60" %>
+          </div>
+          <div class="col-sm-6">
+            <%= f.label :date, "Date", class: "form-label" %>
+            <%= f.date_field :date, class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :notes, "Description", class: "form-label" %>
+          <%= f.text_area :notes, class: "form-control", rows: 5,
+                placeholder: "Décris l'activité, ses bienfaits, les prérequis, le matériel nécessaire..." %>
+        </div>
+
+        <div class="d-flex gap-2 flex-wrap">
+          <%= f.submit(@activity.persisted? ? "Mettre à jour" : "Créer l'activité",
+                class: "wb-btn wb-btn-primary") %>
+          <%= link_to "Annuler", activities_path, class: "wb-btn wb-btn-outline" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

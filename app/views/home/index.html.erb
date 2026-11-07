@@ -1,0 +1,76 @@
+<!-- ===== HERO ===== -->
+<section class="py-5 mb-4">
+  <div class="row align-items-center g-5">
+    <div class="col-lg-6">
+      <span class="wb-tag mb-3 d-inline-block fade-up">Wellbeing &mdash; Bien-être au quotidien</span>
+      <h1 class="wb-title fade-up-1 mb-3" style="font-size:3.2rem; line-height:1.15">
+        Prends soin de toi,<br>
+        <span class="wb-title-italic" style="color:var(--wb-sage)">un jour à la fois</span>
+      </h1>
+      <p class="wb-muted fade-up-2 mb-4" style="font-size:1.05rem; line-height:1.8; max-width:480px">
+        Découvre des activités bien-être soigneusement sélectionnées &mdash; yoga, méditation, soins &mdash;
+        et prends soin de ton corps et de ton esprit au quotidien.
+      </p>
+      <div class="d-flex gap-3 flex-wrap fade-up-3">
+        <%= link_to "Explorer les activités", activities_path, class: "wb-btn wb-btn-primary" %>
+        <% if logged_in? %>
+          <%= link_to "Mon dashboard", dashboard_path, class: "wb-btn wb-btn-outline" %>
+        <% else %>
+          <%= link_to "Créer un compte gratuit", signup_path, class: "wb-btn wb-btn-gold" %>
+        <% end %>
+      </div>
+      <div class="mt-4 d-flex flex-wrap gap-3 fade-up-4">
+        <span class="wb-muted small"><i class="bi bi-check-circle-fill me-1" style="color:var(--wb-sage)"></i> Réservation simple</span>
+        <span class="wb-muted small"><i class="bi bi-check-circle-fill me-1" style="color:var(--wb-sage)"></i> Activités variées</span>
+        <span class="wb-muted small"><i class="bi bi-check-circle-fill me-1" style="color:var(--wb-sage)"></i> 100 % bien-être</span>
+      </div>
+    </div>
+
+    <div class="col-lg-6 fade-up-2">
+      <div class="wb-card p-4">
+        <div class="d-flex align-items-center gap-2 mb-4">
+          <span style="font-size:1.3rem">🌿</span>
+          <span class="fw-semibold" style="font-family:'Playfair Display',serif; color:var(--wb-sage-dark)">Pourquoi Wellbeing ?</span>
+        </div>
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="p-3 rounded-4 h-100" style="background:rgba(107,143,113,.07); border:1px solid rgba(107,143,113,.1)">
+              <div style="font-size:1.6rem">🧘</div>
+              <div class="fw-semibold mt-2" style="font-size:.9rem">Yoga & Méditation</div>
+              <div class="wb-muted" style="font-size:.8rem; margin-top:2px">Calme ton esprit, renforce ton corps</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="p-3 rounded-4 h-100" style="background:rgba(212,165,116,.1); border:1px solid rgba(212,165,116,.15)">
+              <div style="font-size:1.6rem">💆</div>
+              <div class="fw-semibold mt-2" style="font-size:.9rem">Soins & Bien-être</div>
+              <div class="wb-muted" style="font-size:.8rem; margin-top:2px">Prends soin de toi avec expertise</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="p-3 rounded-4 h-100" style="background:rgba(201,145,138,.1); border:1px solid rgba(201,145,138,.15)">
+              <div style="font-size:1.6rem">🥗</div>
+              <div class="fw-semibold mt-2" style="font-size:.9rem">Nutrition</div>
+              <div class="wb-muted" style="font-size:.8rem; margin-top:2px">Adopte une alimentation équilibrée</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="p-3 rounded-4 h-100" style="background:rgba(107,143,113,.05); border:1px solid rgba(107,143,113,.1)">
+              <div style="font-size:1.6rem">💪</div>
+              <div class="fw-semibold mt-2" style="font-size:.9rem">Sport doux</div>
+              <div class="wb-muted" style="font-size:.8rem; margin-top:2px">Bouge à ton rythme, progressivement</div>
+            </div>
+          </div>
+        </div>
+        <hr class="my-4" style="border-color:rgba(107,143,113,.15)">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <div class="fw-semibold" style="font-size:.95rem">Commence dès aujourd'hui</div>
+            <div class="wb-muted small">Tu es à 2 clics de ta première séance.</div>
+          </div>
+          <%= link_to "Explorer", activities_path, class: "wb-btn wb-btn-primary btn-sm" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

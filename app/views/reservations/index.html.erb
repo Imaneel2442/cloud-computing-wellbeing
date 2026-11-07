@@ -1,0 +1,76 @@
+<!-- Header -->
+<div class="wb-hero-mini mb-4 fade-up">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div>
+      <h2 class="wb-title mb-1" style="font-size:2rem">Mes réservations</h2>
+      <div class="wb-muted"><%= @reservations.count %> séance<%= @reservations.count > 1 ? "s" : "" %> réservée<%= @reservations.count > 1 ? "s" : "" %></div>
+    </div>
+    <%= link_to "Réserver une séance", activities_path, class: "wb-btn wb-btn-primary btn-sm" %>
+  </div>
+</div>
+
+<% if @reservations.empty? %>
+  <div class="wb-empty fade-up">
+    <div class="wb-empty-icon">📭</div>
+    <h3 class="wb-title mb-2">Aucune réservation</h3>
+    <p class="wb-muted mb-3">Explore notre catalogue et réserve ta première séance bien-être !</p>
+    <%= link_to "Explorer les activités", activities_path, class: "wb-btn wb-btn-primary" %>
+  </div>
+
+<% else %>
+  <div class="wb-card p-4 fade-up-1">
+    <div class="table-responsive">
+      <table class="table align-middle" style="font-size:.9rem">
+        <thead>
+          <tr style="color:var(--wb-muted); font-size:.8rem; text-transform:uppercase; letter-spacing:.04em">
+            <th class="fw-normal border-0 pb-3">Activité</th>
+            <th class="fw-normal border-0 pb-3">Date</th>
+            <th class="fw-normal border-0 pb-3">Heure</th>
+            <th class="fw-normal border-0 pb-3">Places</th>
+            <th class="fw-normal border-0 pb-3">Total</th>
+            <th class="fw-normal border-0 pb-3">Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @reservations.each do |r| %>
+            <tr style="border-color:rgba(107,143,113,.1)">
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  <span style="font-size:1.3rem"><%= r.activity.emoji %></span>
+                  <div>
+                    <div class="fw-semibold" style="color:var(--wb-text)">
+                      <%= link_to r.activity.title, activity_path(r.activity),
+                            class: "text-decoration-none", style: "color:var(--wb-text)" %>
+                    </div>
+                    <div class="wb-muted" style="font-size:.8rem"><%= r.activity.category_info[:label] %></div>
+                  </div>
+                </div>
+              </td>
+              <td class="wb-muted"><i class="bi bi-calendar3 me-1" style="color:var(--wb-gold)"></i><%= r.date.strftime("%d/%m/%Y") %></td>
+              <td class="wb-muted"><i class="bi bi-clock me-1" style="color:var(--wb-sage)"></i><%= r.time %></td>
+              <td class="wb-muted"><%= r.seats %> place<%= r.seats > 1 ? "s" : "" %></td>
+              <td style="color:var(--wb-sage); font-weight:700"><%= r.total_price %> DH</td>
+              <td>
+                <span class="wb-tag" style="background:rgba(107,143,113,.12); color:var(--wb-sage-dark)">
+                  <i class="bi bi-check-circle me-1"></i><%= r.status %>
+                </span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <hr style="border-color:rgba(107,143,113,.12)">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div class="wb-muted small">
+        Total dépensé :
+        <strong style="color:var(--wb-sage)">
+          <%= @reservations.sum { |r| r.total_price.to_f } %> DH
+        </strong>
+      </div>
+      <%= link_to "Réserver une nouvelle séance", activities_path,
+            class: "wb-btn wb-btn-primary btn-sm" %>
+    </div>
+  </div>
+<% end %>

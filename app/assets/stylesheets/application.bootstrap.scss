@@ -1,0 +1,128 @@
+/* ===== Activities page (same idea, your theme) ===== */
+
+.wb-header{
+  padding: 10px 0 6px 0;
+}
+
+.wb-page-title{
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.wb-muted{ color: rgba(0,0,0,.55); margin: 6px 0 0 0; }
+
+/* Chips */
+.wb-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.wb-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.75);
+  border: 1px solid rgba(122,90,248,.18);
+  text-decoration:none;
+  color: rgba(0,0,0,.65);
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0,0,0,.03);
+}
+.wb-chip:hover{
+  transform: translateY(-1px);
+}
+.wb-chip.active{
+  background: rgba(122,90,248,.12);
+  border-color: rgba(122,90,248,.35);
+  color: #4a35d6;
+}
+
+/* Card */
+.wb-activity-card{
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(255,255,255,.8);
+  border: 1px solid rgba(0,0,0,.05);
+  box-shadow: 0 20px 45px rgba(0,0,0,.06);
+}
+.wb-activity-top{
+  padding: 26px 16px;
+  background: rgba(122,90,248,.06);
+}
+.wb-emoji{
+  font-size: 46px;
+  line-height: 1;
+}
+.wb-activity-body{
+  padding: 18px 18px 16px 18px;
+}
+.wb-card-title{
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin: 0;
+}
+.wb-tag{
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(122,90,248,.10);
+  color: #5b43e6;
+  font-weight: 700;
+  font-size: .78rem;
+  white-space: nowrap;
+}
+.wb-card-desc{
+  margin: 10px 0 12px 0;
+  color: rgba(0,0,0,.62);
+  line-height: 1.5;
+  min-height: 46px;
+}
+.wb-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 12px;
+  color: rgba(0,0,0,.55);
+  font-weight: 600;
+  font-size: .92rem;
+}
+.wb-btn-wide{
+  border-radius: 999px;
+  padding: 10px 16px;
+}
+.wb-icon-btn{
+  border-radius: 999px;
+  padding: 10px 12px;
+}
+
+/* Empty state */
+.wb-empty{
+  text-align:center;
+  background: rgba(255,255,255,.75);
+  border: 1px solid rgba(0,0,0,.05);
+  border-radius: 22px;
+  padding: 40px 18px;
+  box-shadow: 0 20px 45px rgba(0,0,0,.05);
+}
+.wb-empty-emoji{ font-size: 42px; margin-bottom: 10px; }
+
+/* Buttons (if not already defined in your theme) */
+.wb-pill{ border-radius: 999px; padding: 10px 18px; }
+
+.wb-btn-primary{
+  background:#7A5AF8;
+  color:#fff;
+  border:none;
+}
+.wb-btn-primary:hover{ background:#6A48E5; color:#fff; }
+
+.wb-btn-soft{
+  background: rgba(122,90,248,.10);
+  color:#5b43e6;
+  border: 1px solid rgba(122,90,248,.20);
+}
+.wb-btn-soft:hover{
+  background: rgba(122,90,248,.16);
+  color:#4a35d6;
+}

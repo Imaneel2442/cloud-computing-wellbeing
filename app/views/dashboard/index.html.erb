@@ -1,0 +1,130 @@
+<!-- Salutation personnalisée -->
+<div class="wb-hero-mini mb-4 fade-up">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <p class="wb-muted small mb-1">Bonjour,</p>
+      <h2 class="wb-title mb-1" style="font-size:2rem">
+        <%= current_user.name %> <span class="wb-title-italic" style="color:var(--wb-sage)">✨</span>
+      </h2>
+      <div class="wb-muted">Voici un aperçu de ton activité bien-être.</div>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+      <%= link_to "Voir les activités", activities_path, class: "wb-btn wb-btn-outline btn-sm" %>
+      <%= link_to "Mes réservations", reservations_path, class: "wb-btn wb-btn-primary btn-sm" %>
+    </div>
+  </div>
+</div>
+
+<!-- Stat cards -->
+<div class="row g-3 mb-4">
+  <div class="col-md-4 fade-up-1">
+    <div class="wb-stat-card">
+      <div class="wb-stat-icon">🏃</div>
+      <div class="wb-muted small mb-1">Activités disponibles</div>
+      <div class="wb-stat-num"><%= @stats[:activities_count] %></div>
+      <%= link_to "Explorer", activities_path,
+            class: "wb-btn wb-btn-outline btn-sm mt-3" %>
+    </div>
+  </div>
+  <div class="col-md-4 fade-up-2">
+    <div class="wb-stat-card">
+      <div class="wb-stat-icon">📅</div>
+      <div class="wb-muted small mb-1">Mes réservations</div>
+      <div class="wb-stat-num"><%= @stats[:reservations_count] %></div>
+      <%= link_to "Voir tout", reservations_path,
+            class: "wb-btn wb-btn-outline btn-sm mt-3" %>
+    </div>
+  </div>
+  <div class="col-md-4 fade-up-3">
+    <div class="wb-stat-card">
+      <div class="wb-stat-icon">⭐</div>
+      <div class="wb-muted small mb-1">Note moyenne</div>
+      <div class="wb-stat-num">
+        <% if @stats[:avg_rating] > 0 %>
+          <%= @stats[:avg_rating] %>/5
+        <% else %>
+          &mdash;
+        <% end %>
+      </div>
+      <div class="wb-muted small mt-3" style="font-size:.8rem">Aucun avis encore</div>
+    </div>
+  </div>
+</div>
+
+<!-- Prochaines séances + actions rapides -->
+<div class="row g-4">
+  <div class="col-lg-8 fade-up-3">
+    <div class="wb-card p-4 h-100">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="wb-title mb-0" style="font-size:1.2rem">Prochaines séances</h5>
+        <%= link_to "Tout voir →", reservations_path,
+              class: "small fw-semibold text-decoration-none", style: "color:var(--wb-sage)" %>
+      </div>
+
+      <% if @upcoming.empty? %>
+        <div class="text-center py-5">
+          <div style="font-size:2.5rem">📭</div>
+          <p class="wb-muted mt-2 mb-3">Aucune séance à venir. Réserve dès maintenant !</p>
+          <%= link_to "Explorer les activités", activities_path,
+                class: "wb-btn wb-btn-primary btn-sm" %>
+        </div>
+      <% else %>
+        <div class="table-responsive">
+          <table class="table align-middle" style="font-size:.9rem">
+            <thead>
+              <tr style="color:var(--wb-muted); font-size:.82rem; text-transform:uppercase; letter-spacing:.04em">
+                <th class="fw-normal border-0">Activité</th>
+                <th class="fw-normal border-0">Date</th>
+                <th class="fw-normal border-0">Heure</th>
+                <th class="fw-normal border-0">Places</th>
+                <th class="fw-normal border-0">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @upcoming.each do |r| %>
+                <tr>
+                  <td class="fw-semibold">
+                    <%= r.activity.emoji %>
+                    <%= link_to r.activity.title, activity_path(r.activity),
+                          class: "text-decoration-none", style: "color:var(--wb-text)" %>
+                  </td>
+                  <td class="wb-muted"><%= r.date.strftime("%d/%m/%Y") %></td>
+                  <td class="wb-muted"><%= r.time %></td>
+                  <td class="wb-muted"><%= r.seats %></td>
+                  <td style="color:var(--wb-sage); font-weight:700"><%= r.total_price %> DH</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="col-lg-4 fade-up-4">
+    <div class="wb-card p-4 h-100">
+      <h5 class="wb-title mb-3" style="font-size:1.2rem">Actions rapides</h5>
+      <div class="d-grid gap-2">
+        <%= link_to activities_path, class: "wb-btn wb-btn-primary w-100 justify-content-start" do %>
+          <i class="bi bi-grid-3x3-gap"></i> Explorer les activités
+        <% end %>
+        <%= link_to reservations_path, class: "wb-btn wb-btn-outline w-100 justify-content-start" do %>
+          <i class="bi bi-calendar-check"></i> Mes réservations
+        <% end %>
+        <% if logged_in? %>
+          <%= link_to new_activity_path, class: "wb-btn wb-btn-gold w-100 justify-content-start" do %>
+            <i class="bi bi-plus-circle"></i> Créer une activité
+          <% end %>
+        <% end %>
+      </div>
+
+      <hr style="border-color:rgba(107,143,113,.15); margin:1.2rem 0">
+
+      <div style="font-size:.88rem; color:var(--wb-muted)">
+        <div class="fw-semibold mb-2" style="color:var(--wb-text)">Mon profil</div>
+        <div><i class="bi bi-person me-1"></i> <%= current_user.name %></div>
+        <div class="mt-1"><i class="bi bi-envelope me-1"></i> <%= current_user.email %></div>
+      </div>
+    </div>
+  </div>
+</div>

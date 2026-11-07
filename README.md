@@ -1,4 +1,4 @@
-c# Wellbeing App
+# Wellbeing App
 
 Application Rails de bien-être : activités, réservations, dashboard utilisateur.
 
